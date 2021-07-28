@@ -1,6 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
+  appRoot: {
+    display: "flex",
+  },
   navigationLogo: {
     width: "50%",
     cursor: "pointer",
@@ -16,6 +19,8 @@ export const useStyles = makeStyles((theme) => ({
     border: "none",
     whiteSpace: "nowrap",
     overflowX: "hidden",
+    position: "relative",
+    height: "100vh",
   },
   navigationDrawerCollapse: {
     width: theme.spacing(9),
