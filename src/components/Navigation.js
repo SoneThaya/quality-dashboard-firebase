@@ -1,47 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
 import Drawer from "@material-ui/core/Drawer";
 // assets
-import Logo from "../logo.svg";
-import DashboardIcon from "../assets/DashboardIcon.svg";
-import DashboardIconActive from "../assets/DashboardIconActive.svg";
-import AccountsIcon from "../assets/AccountsIcon.svg";
-import AccountsIconActive from "../assets/AccountsIconActive.svg";
+import Logo1 from "../assets/logo1.svg";
+import Logo2 from "../assets/logo2.svg";
 
 // @material ui
 import { useStyles } from "../styles";
 import List from "@material-ui/core/List";
+import { IconButton } from "@material-ui/core";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import MenuIcon from "@material-ui/icons/Menu";
+
+// internal
 import MenuItem from "./MenuItem";
+import routes from "../routes";
+import clsx from "clsx";
 
 const Navigation = () => {
   const classes = useStyles();
+  const [open, setOpen] = useState(true);
+
+  const toggleNavigation = () => {
+    setOpen(!open);
+  };
 
   return (
     <div>
       <Drawer
-        classes={{ paper: classes.navigationDrawer }}
+        classes={{
+          paper: clsx(
+            classes.navigationDrawer,
+            !open && classes.navigationDrawerCollapse
+          ),
+        }}
         variant="permanent"
-        open={true}
+        open={open}
       >
+        <div
+          className={clsx(
+            classes.navigationToolbar,
+            !open && classes.navigationToolbarCollapse
+          )}
+        >
+          <IconButton onClick={toggleNavigation}>
+            {open ? <ChevronLeftIcon /> : <MenuIcon />}
+          </IconButton>
+        </div>
         <div className={classes.navigationLogoContainer}>
           <img
             className={classes.navigationLogo}
-            src={Logo}
+            src={open ? Logo1 : Logo2}
             alt="Quality Logo"
           />
         </div>
         <List className={classes.navigationList}>
-          <MenuItem
-            label="Dashboard"
-            icon={DashboardIcon}
-            activeIcon={DashboardIconActive}
-            path="/"
-          />
-          <MenuItem
-            label="Accounts"
-            icon={AccountsIcon}
-            activeIcon={AccountsIconActive}
-            path="/accounts"
-          />
+          {routes.map((route, index) => {
+            return (
+              <>
+                {route.path === "/sign-out" && (
+                  <div className={classes.navigationSpacer}></div>
+                )}
+                <MenuItem
+                  label={route.label}
+                  icon={route.icon}
+                  activeIcon={route.activeIcon}
+                  path={route.path}
+                />
+              </>
+            );
+          })}
         </List>
       </Drawer>
     </div>

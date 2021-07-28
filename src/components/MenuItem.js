@@ -15,6 +15,7 @@ const MenuItem = ({ label, icon, activeIcon, path }) => {
 
   return (
     <ListItem
+      button
       className={clsx(classes.menuItem, active && classes.menuItemActive)}
     >
       <ListItemIcon>
